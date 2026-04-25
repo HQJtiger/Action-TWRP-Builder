@@ -96,11 +96,13 @@ jobs:
     - name: Build
       run: |
         cd ${{ steps.pwd.outputs.workspace-folder }}
-        rm -rf out
+        rm -rf out/target/product/${{ github.event.inputs.DEVICE_NAME }}
+        rm -rf out/target/product/P865A02
+        rm -rf out/soong
+        rm -rf out/build
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
-        make clean
         make recoveryimage -j$(nproc)
 
     - name: Upload
