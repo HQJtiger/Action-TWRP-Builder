@@ -44,7 +44,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Cleanup workspace
-      run: rm -rf workspace
+      run: |
+        rm -rf workspace
+        mkdir workspace
 
     - name: Prepare environment
       run: |
@@ -96,10 +98,7 @@ jobs:
     - name: Build
       run: |
         cd ${{ steps.pwd.outputs.workspace-folder }}
-        rm -rf out/target/product/${{ github.event.inputs.DEVICE_NAME }}
-        rm -rf out/target/product/P865A02
-        rm -rf out/soong
-        rm -rf out/build
+        rm -rf out/target/product/${{ github.event.inputs.DEVICE_NAME }}/root/vendor
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
